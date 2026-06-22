@@ -80,6 +80,20 @@ Read-only summary of the per-client caps configured on the product: **Download**
 
 ---
 
+## Email notification
+
+![Resend welcome email button](../img/40-product-info-email-notification.png)
+*40-product-info-email-notification.png*
+
+A **Resend welcome email** button that re-sends the welcome message — connection details, WireGuard config and QR code — to the client's registered email address on demand. Handy when a customer loses the original email or you onboard them manually.
+
+It sends **regardless** of the product's auto-send setting, so you can leave automatic sending off and dispatch the email only when you choose. A confirmation prompt protects against accidental clicks; the result is shown inline.
+
+![Welcome email sent confirmation](../img/41-product-info-resend-success.png)
+*41-product-info-resend-success.png*
+
+---
+
 ## Metric Statistics
 
 WHMCS-rendered block (not part of the module's tab fields, shown when the product has Usage Billing metrics enabled). Lists the metric, its enabled state, current usage and last update time. Values come from the module's metric provider, which fetches monthly traffic totals from the panel via `GET /api/v1/client/{name}/traffic/{Y}/{m}` and reports them in gigabytes.

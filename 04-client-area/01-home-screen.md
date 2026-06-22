@@ -44,12 +44,14 @@ A manual **Refresh** button next to the badge forces an immediate fetch.
 
 ## One-Time Link (OTL)
 
-A button that calls `POST /api/v1/client/{name}/otl` and displays a single-use self-service URL the customer can open once to configure their device without re-entering credentials.
+The fastest way to get a customer connected on a new device: one secure link that carries **everything** — all protocol configurations, QR codes and credentials — on a page that opens **only once**.
+
+The **Generate One-Time Link** button calls `POST /api/v1/client/{name}/otl` and returns a single-use URL. The card explains the feature up front, and once a link is generated it offers a read-only field with **Copy** and **Open link** buttons, plus a clear warning that the link reveals all connection data and stops working the moment it is opened.
 
 ![One-Time Link generated](../img/14-home-screen-otl.png)
 *14-home-screen-otl.png*
 
-> The link expires after the first use. The endpoint is POST-only — opening the URL by accident in a browser tab does not consume the token.
+> The link is single-use and expires immediately after the first visit — opening it consumes it. Anyone with the link sees the full connection data, so it should be shared only through a trusted channel. Need it again? Just generate a new one. The generate action is POST-only, so an accidental browser prefetch cannot burn the token.
 
 ---
 

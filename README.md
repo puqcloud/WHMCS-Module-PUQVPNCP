@@ -16,9 +16,11 @@ The PUQVPNCP WHMCS module is a provisioning module that integrates WHMCS with PU
 - **Multi-protocol support** — WireGuard, OpenVPN and IKEv2, with protocol availability detected automatically
 - **Configuration delivery** — WireGuard `.conf` + QR code, OpenVPN `.ovpn` profile and IKEv2 profile, all with Copy/Download buttons in the client area
 - **Per-client bandwidth limits** — configure download/upload caps (Mbit/s) per product; `0` means unlimited
+- **Speed tiers in one click** — auto-create WHMCS Configurable Options for download/upload speed (Unlimited → 1000 Mbit/s); customers pick their tier at checkout and upgrade/downgrade anytime, with the new speed applied automatically
+- **Welcome email with configs** — optionally email the client their connection details, WireGuard config and QR code the instant the account is provisioned; admins can re-send on demand
 - **Flexible network selection** — pick one or more VPN networks per product; the module iterates them at provisioning time and uses the first one with a free IP
 - **Traffic statistics** — monthly chart (download/upload per day) with totals, powered by the panel API
-- **One-time self-service link (OTL)** — generate a single-use URL that opens the panel without re-authentication
+- **One-time self-service link (OTL)** — generate a single-use URL that hands the customer every protocol config, QR code and credential on a page that opens only once
 - **Admin insight** — service admin tab shows API connection status, remote client state, bandwidth and resolved location
 - **License verification** — built-in license system with online/offline verification and admin alerts
 

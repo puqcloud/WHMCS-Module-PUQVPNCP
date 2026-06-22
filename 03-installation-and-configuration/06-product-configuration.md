@@ -69,6 +69,87 @@ If the generated name already exists in `tblhosting.username`, the module append
 
 ---
 
+## Welcome Email
+
+![Welcome Email settings](../img/34-product-config-welcome-email.png)
+*34-product-config-welcome-email.png*
+
+Send the customer everything they need to connect the moment their service goes live — automatically.
+
+- **Send welcome email after account provisioning** — when ticked, the module emails the client right after the VPN account is created. The message includes the connection details, the full WireGuard config text and an inline QR code, plus a direct link to manage the service.
+- **Email template** — which WHMCS *Product/Service* email template to send. Leave it on **Module default** to use the bundled **PUQ VPNcp - Welcome** template, or pick any of your own templates.
+- **Default template** — a one-click manager for the bundled template:
+  - **Create if missing** — adds the **PUQ VPNcp - Welcome** template only if it does not exist yet (your edits are never overwritten). The badge shows **EXISTS** once it is in place.
+  - **Reset to default** — restores the shipped subject and body (use it if you edited the template and want to start over).
+
+You can edit the template body any time in **Setup → Email Templates → Product/Services**. It supports these merge variables: `{$puq_client_name}`, `{$puq_vpn_ip}`, `{$puq_vpn_username}`, `{$puq_vpn_password}`, `{$puq_wg_config}`, `{$puq_wg_qr_html}`, `{$puq_service_url}`.
+
+> The template is also auto-created on the first send if it is still missing, so the feature works even if you never touch the buttons.
+
+---
+
+## Speed presets (Configurable Options)
+
+![Speed presets one-click creator](../img/35-product-config-speed-presets.png)
+*35-product-config-speed-presets.png*
+
+WHMCS **Configurable Options** let your customers choose their own download/upload speed at order time and change it later through an upgrade/downgrade — turning a single product into a whole speed-tier line-up. The module reads the selected values and applies them to the VPN client, overriding the product's default bandwidth.
+
+Setting these up by hand is fiddly, so the module does it for you with **one button**.
+
+### One-click creation
+
+Click **Create speed presets** and the module instantly builds and links everything:
+
+- a configurable-option group **PUQ VPNcp - Speed presets**;
+- two dropdown options — **Download limit (Mbit/s)** and **Upload limit (Mbit/s)**;
+- ready-made presets in each: **Unlimited, 10, 25, 50, 100, 250, 500, 1000 Mbit/s**, priced at `0` in every currency;
+- a link from the group to the current product.
+
+The button is **safe to click repeatedly** — only missing pieces are added, so your prices and edits are preserved. The status badge reflects the current state: *Not created yet* → *Created & linked*.
+
+### What gets created
+
+| Option Name | Type | Reads as | Preset sub-options (`value\|label`) |
+|-------------|------|----------|--------------------------------------|
+| `puqVPNcp_b_download\|Download limit (Mbit/s)` | Dropdown | per-client download cap (Mbit/s) | `0\|Unlimited`, `10\|10 Mbit/s`, `25\|25 Mbit/s`, `50\|50 Mbit/s`, `100\|100 Mbit/s`, `250\|250 Mbit/s`, `500\|500 Mbit/s`, `1000\|1000 Mbit/s` |
+| `puqVPNcp_b_upload\|Upload limit (Mbit/s)` | Dropdown | per-client upload cap (Mbit/s) | same set as above |
+
+The text before the `|` is the internal name the module matches on; the text after the `|` is what the customer sees. The sub-option value `0` means **Unlimited**.
+
+![Configurable Options assigned to the product](../img/36-configurable-options-assigned.png)
+*36-configurable-options-assigned.png*
+
+The group appears on the product's **Configurable Options** tab (already ticked under *Assigned Option Groups*) and under **System Settings → Products/Services → Configurable Options**.
+
+![Configurable Option group with both options](../img/37-configurable-options-group.png)
+*37-configurable-options-group.png*
+
+### Pricing the tiers
+
+By default every preset is free (`0.00`), so customers can switch speeds at no cost. To monetise faster tiers, open each option and set per-cycle pricing on the sub-options — for example charge more for `500 Mbit/s` than for `50 Mbit/s`.
+
+![Download limit presets and pricing](../img/38-configurable-options-download.png)
+*38-configurable-options-download.png*
+
+![Upload limit presets and pricing](../img/39-configurable-options-upload.png)
+*39-configurable-options-upload.png*
+
+After changing pricing, **save the product** to refresh the panel status.
+
+### How the value is applied
+
+| Priority | Source | When used |
+|----------|--------|-----------|
+| 1 (wins) | Configurable Option selection | whenever the option is assigned to the service (including `0` = unlimited) |
+| 2 | Product **Bandwidth** default (Module Settings) | when no speed option is assigned |
+
+On **provisioning** and on every **upgrade/downgrade** (WHMCS calls the module's change-package routine for configurable-option changes too), the module pushes the resolved `b_download` / `b_upload` to the panel via `PUT /api/v1/client/{name}`. So a customer who upgrades from *100 Mbit/s* to *500 Mbit/s* gets the new speed applied automatically, with no manual work for you.
+
+> Adding the speed options is optional. Skip the button and every service simply uses the product's **Bandwidth** defaults.
+
+---
+
 ## VPN Networks
 
 ![VPN Networks](../img/10-product-config-vpn-networks.png)
