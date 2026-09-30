@@ -1,7 +1,7 @@
 # Product information (admin service tab)
 
 ### PUQVPNCP module **[WHMCS](https://puqcloud.com/link.php?id=77)**
-#####  [Order now](https://puqcloud.com/whmcs-module-puqvpncp.php) | [Download](https://download.puqcloud.com/WHMCS/servers/PUQ_WHMCS-PUQVPNCP/) | [COMMUNITY](https://community.puqcloud.com/) | [PUQVPNCP](https://puqvpncp.com/)
+#####  [Order now](https://puqcloud.com/whmcs-module-puqvpncp.php) | [Download](https://download.puqcloud.com/WHMCS/servers/PUQ_WHMCS-PUQVPNCP/) | [Community](https://community.puqcloud.com/) | [PUQVPNCP](https://puqvpncp.com/) | [Order PUQVPNCP](https://puqcloud.com/puqvpncp.php)
 
 Open **Clients → View/Search Clients → (client) → Products/Services → (service)**. The module adds a set of fields to the standard admin service tab — all populated live from the PUQVPNCP panel via AJAX.
 
@@ -40,13 +40,13 @@ A table populated from `GET /api/v1/client/{name}` with the panel's authoritativ
 - **Password** — auth password
 - **Status** — `Enabled` (green label) or `Disabled` (red)
 - **Bandwidth** — current `Down: X Mbit/s · Up: Y Mbit/s` caps (or *Unlimited*)
-- **Protocols** — coloured labels for WireGuard / OpenVPN / IKEv2; protocols disabled on the network are shown greyed-out and struck-through
+- **Protocols** — coloured labels for WireGuard / AmneziaWG / OpenVPN / IKEv2; protocols disabled on the network are shown greyed-out and struck-through
 
 ---
 
 ## Function buttons
 
-Three buttons that fetch and inline-display the protocol configuration for the client. Buttons for protocols disabled on the network are greyed-out, marked `cursor:not-allowed`, and carry a tooltip explaining why they cannot be opened.
+Protocol action buttons that fetch and inline-display the configuration for the client. Buttons for protocols disabled on the network are greyed-out, marked `cursor:not-allowed`, and carry a tooltip explaining why they cannot be opened.
 
 ### View WireGuard
 
@@ -54,6 +54,10 @@ Three buttons that fetch and inline-display the protocol configuration for the c
 *22-product-info-wireguard.png*
 
 Calls `GET /api/v1/client/{name}/config/text` and `/config/qr`. Shows the `.conf` text alongside the QR code (the layout collapses to full-width text when no QR is returned). **Copy** and **Download** buttons act on the visible config; **×** closes the panel.
+
+### View AmneziaWG
+
+Calls `GET /api/v1/client/{name}/amneziawg/config` and `/client/{name}/amneziawg/qr`. Shows the complete obfuscated `.conf` configuration text alongside the QR code. Supports **Copy** and **Download**; **×** closes the panel.
 
 ### View OpenVPN
 

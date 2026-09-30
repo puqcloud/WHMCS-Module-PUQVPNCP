@@ -1,9 +1,11 @@
 # Setup guide — PUQVPNCP panel
 
 ### PUQVPNCP module **[WHMCS](https://puqcloud.com/link.php?id=77)**
-#####  [Order now](https://puqcloud.com/whmcs-module-puqvpncp.php) | [Download](https://download.puqcloud.com/WHMCS/servers/PUQ_WHMCS-PUQVPNCP/) | [COMMUNITY](https://community.puqcloud.com/) | [PUQVPNCP](https://puqvpncp.com/)
+#####  [Order now](https://puqcloud.com/whmcs-module-puqvpncp.php) | [Download](https://download.puqcloud.com/WHMCS/servers/PUQ_WHMCS-PUQVPNCP/) | [Community](https://community.puqcloud.com/) | [PUQVPNCP](https://puqvpncp.com/) | [Order PUQVPNCP](https://puqcloud.com/puqvpncp.php)
 
-Before you can connect WHMCS, you need a running PUQVPNCP panel, an **API token** that WHMCS will use for every operation, and at least one **VPN network** with the protocols you want to expose enabled. This page walks through both.
+> **Important:** This module works exclusively with **PUQVPNCP** and requires version **2.x or higher** ([PUQVPNCP Website](https://puqvpncp.com/) | [Order PUQVPNCP](https://puqcloud.com/puqvpncp.php)).
+
+Before you can connect WHMCS, you need a running PUQVPNCP panel (v2.x or higher), an **API token** that WHMCS will use for every operation, and at least one **VPN network** with the protocols you want to expose enabled (WireGuard, AmneziaWG, OpenVPN, IKEv2). This page walks through both.
 
 ---
 
@@ -54,7 +56,7 @@ The next dialog shows the **Bearer Token**. Click **Copy** and store it somewher
 
 > The token grants the user's **effective permissions** — the `admin` group used in the screenshot has full access. For tighter control, create a dedicated user/permission group on the panel and issue a token for that user instead.
 
-You will paste this token into the **Password** field of the WHMCS server record — see [Add server](05-add-server.md).
+You will paste this token into the **Password** field of the WHMCS server record — see [Add server](03-add-server.md).
 
 ---
 
@@ -95,18 +97,18 @@ Click the green **✓** in the top-right to save. Protocols (WireGuard / OpenVPN
 
 ### Step 3 — Enable protocols on the network
 
-After saving, you land on the network's **Edit** page with a row of tabs (Main / WireGuard / OpenVPN / IKEv2 / Port Forwarding / Routes / Firewall / Clients / Traffic Control / Traffic) and a **Protocols** card on the right.
+After saving, you land on the network's **Edit** page with a row of tabs (Main / WireGuard / AmneziaWG / OpenVPN / IKEv2 / Port Forwarding / Routes / Firewall / Clients / Traffic Control / Traffic) and a **Protocols** card on the right.
 
 Tick **Enabled** for every protocol you want to offer to customers via WHMCS. The WHMCS module reads this state from `GET /api/v1/network/{name}` — disabled protocols are hidden in the client area and shown greyed-out (with a tooltip) in the admin service tab.
 
 ![Network — enable protocols](../img/33-puqvpncp-network-edit-protocols.png)
 *33-puqvpncp-network-edit-protocols.png*
 
-Open each protocol-specific tab (**WireGuard**, **OpenVPN**, **IKEv2**) to fine-tune ports, ciphers, MTU and other parameters as needed. Defaults are sensible for most deployments.
+Open each protocol-specific tab (**WireGuard**, **AmneziaWG**, **OpenVPN**, **IKEv2**) to fine-tune ports, ciphers, MTU and other parameters as needed. Defaults are sensible for most deployments.
 
 ---
 
 ## What's next
-
-- Add the panel to WHMCS — see [Add server](05-add-server.md).
-- Configure a WHMCS product backed by this panel — see [Product configuration](06-product-configuration.md).
+ 
+- Add the panel to WHMCS — see [Add server](03-add-server.md).
+- Configure a WHMCS product backed by this panel — see [Product configuration](04-product-configuration.md).

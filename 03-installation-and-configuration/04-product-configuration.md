@@ -1,7 +1,7 @@
 # Product configuration
 
 ### PUQVPNCP module **[WHMCS](https://puqcloud.com/link.php?id=77)**
-#####  [Order now](https://puqcloud.com/whmcs-module-puqvpncp.php) | [Download](https://download.puqcloud.com/WHMCS/servers/PUQ_WHMCS-PUQVPNCP/) | [COMMUNITY](https://community.puqcloud.com/) | [PUQVPNCP](https://puqvpncp.com/)
+#####  [Order now](https://puqcloud.com/whmcs-module-puqvpncp.php) | [Download](https://download.puqcloud.com/WHMCS/servers/PUQ_WHMCS-PUQVPNCP/) | [Community](https://community.puqcloud.com/) | [PUQVPNCP](https://puqvpncp.com/) | [Order PUQVPNCP](https://puqcloud.com/puqvpncp.php)
 
 ## Create the product
 
@@ -66,6 +66,7 @@ If the generated name already exists in `tblhosting.username`, the module append
 *09-product-config-client-area.png*
 
 - **Link to instruction** — optional URL shown as a **User manual** button at the top of the client-area home screen. Leave empty to hide the button.
+- **Show password** — controls how the VPN password is displayed in the client area: **Show button** (hidden by default, revealed on button click), **Plain text** (always visible), or **No** (hidden entirely).
 
 ---
 
@@ -76,15 +77,68 @@ If the generated name already exists in `tblhosting.username`, the module append
 
 Send the customer everything they need to connect the moment their service goes live — automatically.
 
-- **Send welcome email after account provisioning** — when ticked, the module emails the client right after the VPN account is created. The message includes the connection details, the full WireGuard config text and an inline QR code, plus a direct link to manage the service.
-- **Email template** — which WHMCS *Product/Service* email template to send. Leave it on **Module default** to use the bundled **PUQ VPNcp - Welcome** template, or pick any of your own templates.
+- **Send welcome email after account provisioning** — when ticked, the module emails the client right after the VPN account is created. The message includes the connection details, protocol configuration files and QR codes (WireGuard, AmneziaWG, OpenVPN, IKEv2), a One-Time Link, and a direct button to manage the service.
+- **Email template** — which WHMCS *Product/Service* email template to send. Leave it on **Module default** to use the bundled **PUQ VPNcp - Welcome** template, or pick any of your custom templates.
 - **Default template** — a one-click manager for the bundled template:
   - **Create if missing** — adds the **PUQ VPNcp - Welcome** template only if it does not exist yet (your edits are never overwritten). The badge shows **EXISTS** once it is in place.
-  - **Reset to default** — restores the shipped subject and body (use it if you edited the template and want to start over).
+  - **Reset to default** — restores the shipped subject and body with all protocol blocks and Smarty conditionals.
 
-You can edit the template body any time in **Setup → Email Templates → Product/Services**. It supports these merge variables: `{$puq_client_name}`, `{$puq_vpn_ip}`, `{$puq_vpn_username}`, `{$puq_vpn_password}`, `{$puq_wg_config}`, `{$puq_wg_qr_html}`, `{$puq_service_url}`.
+### Template Merge Variables
 
-> The template is also auto-created on the first send if it is still missing, so the feature works even if you never touch the buttons.
+The email template supports Smarty tags and logic in **Setup → Email Templates → Product/Services**. You can use the following variables:
+
+| Variable | Type | Description |
+| --- | --- | --- |
+| `{$puq_client_name}` | String | VPN client identifier assigned in the panel (e.g. `vpn-1-105-a8f1`) |
+| `{$puq_vpn_ip}` | String | Dedicated IPv4 address assigned to the VPN client inside the network |
+| `{$puq_vpn_username}` | String | Authentication username (used by OpenVPN and IKEv2) |
+| `{$puq_vpn_password}` | String | Authentication password (used by OpenVPN and IKEv2) |
+| `{$puq_wg_config}` | String | Full WireGuard `.conf` configuration text (empty if WireGuard is disabled on network) |
+| `{$puq_wg_qr}` | String (Data URI) | Base64 PNG data URI (`data:image/png;base64,...`) for embedding via `<img src="{$puq_wg_qr}">` |
+| `{$puq_wg_qr_html}` | HTML | Legacy inline `<img>` element with WireGuard QR code |
+| `{$puq_awg_config}` | String | Full AmneziaWG configuration text including obfuscation headers (empty if disabled) |
+| `{$puq_awg_qr}` | String (Data URI) | Base64 PNG data URI (`data:image/png;base64,...`) for embedding via `<img src="{$puq_awg_qr}">` |
+| `{$puq_awg_qr_html}` | HTML | Legacy inline `<img>` element with AmneziaWG QR code |
+| `{$puq_openvpn_config}` | String | Complete OpenVPN `.ovpn` configuration profile text (empty if OpenVPN is disabled) |
+| `{$puq_ovpn_config}` | String | Alias for `{$puq_openvpn_config}` |
+| `{$puq_ikev2_config}` | String | IKEv2 / IPsec connection profile and parameters (empty if IKEv2 is disabled) |
+| `{$puq_otl_url}` | URL | Single-use One-Time Link URL that opens a client onboarding page with all configs and QR codes |
+| `{$puq_instruction_url}` | URL | Link to user guide configured in product settings (**Link to instruction**) |
+| `{$puq_service_url}` | URL | Direct link to the client area service details page (`clientarea.php?action=productdetails&id=...`) |
+| `{$puq_has_wireguard}` | String | `'1'` if WireGuard is enabled on the network, `''` otherwise |
+| `{$puq_has_amneziawg}` | String | `'1'` if AmneziaWG is enabled on the network, `''` otherwise |
+| `{$puq_has_openvpn}` | String | `'1'` if OpenVPN is enabled on the network, `''` otherwise |
+| `{$puq_has_ikev2}` | String | `'1'` if IKEv2 is enabled on the network, `''` otherwise |
+
+### Dynamic Protocol Filtering
+
+Every protocol section in the bundled welcome template is wrapped in a Smarty conditional:
+
+```smarty
+{if $puq_wg_config}
+  <!-- WireGuard config & QR code rendered only when active on server/network -->
+{/if}
+
+{if $puq_awg_config}
+  <!-- AmneziaWG config & QR code rendered only when active on server/network -->
+{/if}
+
+{if $puq_openvpn_config}
+  <!-- OpenVPN profile rendered only when active on server/network -->
+{/if}
+
+{if $puq_ikev2_config}
+  <!-- IKEv2 profile rendered only when active on server/network -->
+{/if}
+
+{if $puq_otl_url}
+  <!-- Quick connect One-Time Link -->
+{/if}
+```
+
+> **Automated Protocol Check:** The module queries the authoritative protocol availability from the remote PUQVPNCP panel (`GET /network/{name}`) before sending. If a protocol is disabled on the assigned network, its configuration variable remains empty and Smarty automatically omits that section from the client's email.
+
+> The template is also auto-created on the first send if it is still missing, so the feature works even if you never touch the template buttons.
 
 ---
 
@@ -157,7 +211,13 @@ On **provisioning** and on every **upgrade/downgrade** (WHMCS calls the module's
 
 On opening the product, the module contacts **every enabled `puqVPNcp` server in the product's server group** and calls `GET /api/v1/network` on each. The UI then shows a per-server tree — unreachable servers remain visible with their error so you can see exactly what went wrong. License-slot capacity (`used / total`) is displayed next to each reachable server.
 
-Each checkbox is a **`server → network`** pair. Ticking the same network name on two different servers creates two independent pairs.
+Each checkbox is a **`server → network`** pair. Next to each network name, inline status badges indicate protocol availability:
+- **WireGuard** (blue when enabled, strikethrough when disabled)
+- **AmneziaWG** (purple when enabled, strikethrough when disabled)
+- **OpenVPN** (cyan when enabled, strikethrough when disabled)
+- **IKEv2** (amber when enabled, strikethrough when disabled)
+
+Ticking the same network name on two different servers creates two independent pairs.
 
 ### How a server and network are picked at deploy time
 
@@ -184,3 +244,13 @@ The module ships a WHMCS **Usage Billing** provider with two metrics:
 - **Bandwidth Usage Upload (GB)**
 
 Enable the metrics on the product's **Pricing** tab to charge customers per GB of traffic. The provider pulls daily totals directly from the panel via `GET /api/v1/client/{name}/traffic/{Y}/{m}` and reports them in gigabytes for the current calendar month. No local accumulation table is used — values come live from the panel each time WHMCS runs the usage-billing cron.
+ 
+### Configure metric pricing
+ 
+Click **Configure Pricing** next to each metric to configure the billing scheme (**Per Unit**, **Total Volume**, or **Graduated**), the free included volume quota, and per-GB rates for all configured currencies:
+ 
+![Configure pricing — Download metric](../img/42-product-config-pricing-download.png)
+*42-product-config-pricing-download.png*
+ 
+![Configure pricing — Upload metric](../img/43-product-config-pricing-upload.png)
+*43-product-config-pricing-upload.png*

@@ -1,7 +1,7 @@
 # Add server (PUQVPNCP panel)
 
 ### PUQVPNCP module **[WHMCS](https://puqcloud.com/link.php?id=77)**
-#####  [Order now](https://puqcloud.com/whmcs-module-puqvpncp.php) | [Download](https://download.puqcloud.com/WHMCS/servers/PUQ_WHMCS-PUQVPNCP/) | [COMMUNITY](https://community.puqcloud.com/) | [PUQVPNCP](https://puqvpncp.com/)
+#####  [Order now](https://puqcloud.com/whmcs-module-puqvpncp.php) | [Download](https://download.puqcloud.com/WHMCS/servers/PUQ_WHMCS-PUQVPNCP/) | [Community](https://community.puqcloud.com/) | [PUQVPNCP](https://puqvpncp.com/) | [Order PUQVPNCP](https://puqcloud.com/puqvpncp.php)
 
 ## Add a PUQVPNCP panel to WHMCS
 
@@ -27,7 +27,7 @@ Navigate to **System Settings → Servers → Add New Server**.
 1. Server Details section, **Type** dropdown: select **puqVPNcp**.
 2. Leave **Username** empty (not used).
 3. Paste the panel's **API token** into the **Password** field — this is what the module sends as `Authorization: Bearer <token>` for every API call.
-4. Click **Test connection** — it calls `/api/v1/system/status`, `/api/v1/license` and `/api/v1/network` and returns OK on success.
+4. Click **Test connection** — it verifies that the panel is running **PUQVPNCP v2.x or higher**, calls `/api/v1/system/status`, `/api/v1/license` and `/api/v1/network`, and returns OK on success.
 
 ![Add server - module settings](../img/05-add-server-2.png)
 *05-add-server-2.png*

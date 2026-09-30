@@ -1,11 +1,13 @@
 # Description
 
 ### PUQVPNCP module **[WHMCS](https://puqcloud.com/link.php?id=77)**
-#####  [Order now](https://puqcloud.com/whmcs-module-puqvpncp.php) | [Download](https://download.puqcloud.com/WHMCS/servers/PUQ_WHMCS-PUQVPNCP/) | [COMMUNITY](https://community.puqcloud.com/) | [PUQVPNCP](https://puqvpncp.com/)
+#####  [Order now](https://puqcloud.com/whmcs-module-puqvpncp.php) | [Download](https://download.puqcloud.com/WHMCS/servers/PUQ_WHMCS-PUQVPNCP/) | [Community](https://community.puqcloud.com/) | [PUQVPNCP](https://puqvpncp.com/) | [Order PUQVPNCP](https://puqcloud.com/puqvpncp.php)
 
 ## PUQVPNCP WHMCS module
 
-The PUQVPNCP WHMCS module is a provisioning module that integrates WHMCS with PUQVPNCP panels, enabling service providers to offer multi-protocol VPN accounts (WireGuard, OpenVPN, IKEv2) to their customers. The module automates the full lifecycle of VPN client management through the PUQVPNCP REST API.
+> **Important:** This module works exclusively with **PUQVPNCP** and requires version **2.x or higher** ([PUQVPNCP Website](https://puqvpncp.com/) | [Order PUQVPNCP](https://puqcloud.com/puqvpncp.php)).
+
+The PUQVPNCP WHMCS module is a provisioning module that integrates WHMCS with PUQVPNCP panels, enabling service providers to offer multi-protocol VPN accounts (WireGuard, AmneziaWG, OpenVPN, IKEv2) to their customers. The module automates the full lifecycle of VPN client management through the PUQVPNCP REST API.
 
 ---
 
@@ -13,15 +15,15 @@ The PUQVPNCP WHMCS module is a provisioning module that integrates WHMCS with PU
 
 - **Automatic VPN client provisioning** — creates the client on the chosen PUQVPNCP panel on service activation
 - **Account lifecycle management** — create, suspend, unsuspend, terminate and change-package operations
-- **Multi-protocol support** — WireGuard, OpenVPN and IKEv2, with protocol availability detected automatically
-- **Configuration delivery** — WireGuard `.conf` + QR code, OpenVPN `.ovpn` profile and IKEv2 profile, all with Copy/Download buttons in the client area
+- **Multi-protocol support** — WireGuard, AmneziaWG (censorship-resistant obfuscated WireGuard), OpenVPN and IKEv2, with protocol availability detected automatically per network
+- **Configuration delivery** — WireGuard `.conf` + QR code, AmneziaWG `.conf` + QR code (including obfuscation headers/junk packets), OpenVPN `.ovpn` profile and IKEv2 profile, all with Copy/Download buttons in the client area
 - **Per-client bandwidth limits** — configure download/upload caps (Mbit/s) per product; `0` means unlimited
 - **Speed tiers in one click** — auto-create WHMCS Configurable Options for download/upload speed (Unlimited → 1000 Mbit/s); customers pick their tier at checkout and upgrade/downgrade anytime, with the new speed applied automatically
-- **Welcome email with configs** — optionally email the client their connection details, WireGuard config and QR code the instant the account is provisioned; admins can re-send on demand
-- **Flexible network selection** — pick one or more VPN networks per product; the module iterates them at provisioning time and uses the first one with a free IP
+- **Welcome email with configs** — optionally email the client their connection details, WireGuard and AmneziaWG config and QR code the instant the account is provisioned; admins can re-send on demand
+- **Flexible network selection** — pick one or more VPN networks per product; the module iterates them at provisioning time and uses the first one with a free IP, showing active/disabled protocol badges in the admin settings
 - **Traffic statistics** — monthly chart (download/upload per day) with totals, powered by the panel API
 - **One-time self-service link (OTL)** — generate a single-use URL that hands the customer every protocol config, QR code and credential on a page that opens only once
-- **Admin insight** — service admin tab shows API connection status, remote client state, bandwidth and resolved location
+- **Admin insight** — service admin tab shows API connection status, remote client state, bandwidth and protocol viewer
 - **License verification** — built-in license system with online/offline verification and admin alerts
 
 ---
@@ -30,10 +32,10 @@ The PUQVPNCP WHMCS module is a provisioning module that integrates WHMCS with PU
 
 | Requirement | Minimum |
 |-------------|---------|
-| WHMCS | 9.x or higher |
-| PHP | 8.2 or higher |
-| PUQVPNCP panel | current |
-| ionCube Loader | v13 or newer (v14, v15) |
+| **WHMCS** | 8.x+, 9.x+. |
+| **PHP** | 7.4, 8.1, 8.2, 8.3, 8.4 |
+| **ionCube Loader** | v15+ |
+| **PUQVPNCP panel** | v2.x and higher |
 
 ---
 
@@ -41,6 +43,7 @@ The PUQVPNCP WHMCS module is a provisioning module that integrates WHMCS with PU
 
 - **Product page:** [https://puqcloud.com/whmcs-module-puqvpncp.php](https://puqcloud.com/whmcs-module-puqvpncp.php)
 - **PUQVPNCP panel:** [https://puqvpncp.com/](https://puqvpncp.com/)
+- **Order PUQVPNCP:** [https://puqcloud.com/puqvpncp.php](https://puqcloud.com/puqvpncp.php)
 - **Documentation:** [https://doc.puq.info/books/puqvpncp-whmcs-module](https://doc.puq.info/books/puqvpncp-whmcs-module)
 - **Support:** [https://puqcloud.com/submitticket.php](https://puqcloud.com/submitticket.php?step=2&deptid=1)
 - **Community:** [https://community.puqcloud.com/](https://community.puqcloud.com/)
